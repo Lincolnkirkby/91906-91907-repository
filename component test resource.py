@@ -5,12 +5,16 @@ from turtle import color
 resourcenum = 1
 filename= "FILE NAME HERE"
 resourcenumstr = str(resourcenum)
-
+error = ""
+c = 0.0
+c2 = 0
+dir = "up"
 def addresourcecommand():
+    global error
     global type
     global resourcenum
     value = resourcenameentry.get()
-    error = False
+    error = ""
     resourcenameentry.delete(0, tk.END)
     if type == 0:
         value2 = resourcecountentry.get()
@@ -19,19 +23,20 @@ def addresourcecommand():
         try: 
             int(value2)
         except ValueError:
-            error = True
-        if int(value2) <= 0:
-           error = True
-    
-    
-
-    if error == False:
+            error = "ERROR, NOT INT"
+        if error == "":
+           if int(value2) <= 0:
+            error = "ERROR, INT must be greater than 0"
+    if error == "":
+        resourcecountentry["bg"] = "#ffffff"
         resourcenum+=1
         resourcenumstr = str(resourcenum)
         if resourcenum <10:
             resourcenumstr = "0"+str(resourcenum)
         resourcenumlabel["text"] = "Resource "+resourcenumstr+":"
-
+    else:
+        resourcecountentry["bg"] = "#FF0000"
+        resourcecountentry.insert("end", error)
 def checkcountcommand():
     global type
     if resourcetypebutton["text"] != "Checklist":
@@ -45,16 +50,36 @@ if resourcenum <10:
 resourcemanagersetup = tk.Tk()
 frame1 = tk.Frame(resourcemanagersetup).pack(anchor="w",side="left")
 frame2 = tk.Frame(resourcemanagersetup).pack(side="bottom",anchor="w",pady=5)
-resourcemanagersetup.title("resource manager "+str(filename)+" setup")
+resourcemanagersetup.title(str(filename)+" setup")
 resourcenumlabel = tk.Label(frame1,text="Resource "+resourcenumstr+":",font=("Helevitica","17",BOLD),justify="left")
 resourcenamelabel = tk.Label(frame1,text="Name:",font=("Helevitica","17"))
-resourcenameentry =tk.Entry(frame1,width=30,justify="left")
+resourcenameentry =tk.Entry(frame1,width=35,justify="left")
 resourcetypebutton = tk.Button(frame1,text="Count",command=checkcountcommand,font=("Helevitica","17"),bg="#0050EF")
 resourcecountlabel = tk.Label(frame1,text="Count needed(Int)",font=("Helevitica","17",BOLD),justify="left")
-resourcecountentry = tk.Entry(frame1,width=30)
+resourcecountentry = tk.Entry(frame1,width=35)
 finishsetupbutton = tk.Button(frame2,text="Finish setup",command=addresourcecommand,font=("Helevitica","17"),bg="#008A00").pack(side="right",anchor="s",pady=10)
 addresourcebutton = tk.Button(frame2,text="Add resource",command=addresourcecommand,font=("Helevitica","17"),bg="#0050EF").pack(side="bottom",anchor="w",pady=10)
 while True:
+    if error != "":
+        if dir == "up":
+            if c2 == 9:
+                if c >8:
+                    dir = "down"
+            if c < 9.4:
+                c += 0.04
+            else:
+                c=0
+                c2+=1
+        else:
+            if c2 == 0:
+                if c < 1:
+                    dir = "up"
+            if c > 0:
+                c -= 0.04
+            else:
+                c=9
+                c2-=1
+        resourcecountentry["bg"] = "#ff"+str(round(c2))+str(round(c))+str(round(c2))+str(round(c))
     resourcemanagersetup.update()
     resourcenumlabel.pack(anchor="w")
     resourcenamelabel.pack(anchor="w",pady=5)
