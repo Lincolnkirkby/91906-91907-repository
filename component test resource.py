@@ -5,21 +5,31 @@ from turtle import color
 resourcenum = 1
 filename= "FILE NAME HERE"
 resourcenumstr = str(resourcenum)
+export= {
+    "names" : [],
+    "values" : []
+}
 error = ""
 c = 0.0
 c2 = 0
 dir = "up"
+
+def finish():
+    with open(filename+"names", 'w') as file:
+      file.writelines(string + '\n' for string in export["names"])
+    with open(filename+"values", 'w') as file:
+      file.writelines(string + '\n' for string in export["values"])
 def addresourcecommand():
     global error
     global type
     global resourcenum
+    global export
     value = resourcenameentry.get()
     error = ""
     resourcenameentry.delete(0, tk.END)
     if type == 0:
         value2 = resourcecountentry.get()
         resourcecountentry.delete(0, tk.END)
-        print(value2)
         try: 
             int(value2)
         except ValueError:
@@ -34,8 +44,13 @@ def addresourcecommand():
         if resourcenum <10:
             resourcenumstr = "0"+str(resourcenum)
         resourcenumlabel["text"] = "Resource "+resourcenumstr+":"
+        export["names"].append(value)
+        if type == 0:
+            export["values"].append(str(value2))
+        else:
+            export["values"].append(str(-1))
+        print(export)
     else:
-        resourcecountentry["bg"] = "#FF0000"
         resourcecountentry.insert("end", error)
 def checkcountcommand():
     global type
@@ -57,7 +72,7 @@ resourcenameentry =tk.Entry(frame1,width=35,justify="left")
 resourcetypebutton = tk.Button(frame1,text="Count",command=checkcountcommand,font=("Helevitica","17"),bg="#0050EF")
 resourcecountlabel = tk.Label(frame1,text="Count needed(Int)",font=("Helevitica","17",BOLD),justify="left")
 resourcecountentry = tk.Entry(frame1,width=35)
-finishsetupbutton = tk.Button(frame2,text="Finish setup",command=addresourcecommand,font=("Helevitica","17"),bg="#008A00").pack(side="right",anchor="s",pady=10)
+finishsetupbutton = tk.Button(frame2,text="Finish setup",command=finish,font=("Helevitica","17"),bg="#008A00").pack(side="right",anchor="s",pady=10)
 addresourcebutton = tk.Button(frame2,text="Add resource",command=addresourcecommand,font=("Helevitica","17"),bg="#0050EF").pack(side="bottom",anchor="w",pady=10)
 while True:
     if error != "":
