@@ -3,7 +3,7 @@ from tkinter.font import BOLD
 type = 0
 from turtle import color
 resourcenum = 1
-filename= "FILE NAME HERE"
+filename = "FILE NAME HERE"
 resourcenumstr = str(resourcenum)
 export= {
     "names" : [],
@@ -26,7 +26,6 @@ def addresourcecommand():
     global export
     value = resourcenameentry.get()
     error = ""
-    resourcenameentry.delete(0, tk.END)
     if type == 0:
         value2 = resourcecountentry.get()
         resourcecountentry.delete(0, tk.END)
@@ -37,7 +36,10 @@ def addresourcecommand():
         if error == "":
            if int(value2) <= 0:
             error = "ERROR, INT must be greater than 0"
+           if int(value2) == 1:
+            error = "Use checklist mode for values of 1"
     if error == "":
+        resourcenameentry.delete(0, tk.END)
         resourcecountentry["bg"] = "#ffffff"
         resourcenum+=1
         resourcenumstr = str(resourcenum)
