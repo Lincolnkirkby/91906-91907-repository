@@ -18,28 +18,35 @@ for x in templist:
     values.append(x.strip("\n"))
 #print(values)
 
-def numberbig(name):
-    print(name)
+numnum = 0
+def generatebuttons(num):
+    global numnum
+    if numnum<2:
+        y = tk.Label(root,text="0/"+values[num],font=("Helevitica","17"))
+        buttonframe = tk.Frame(root)
+        a = tk.Button(buttonframe,font=("Helevitica","17"),text="Value +1",bg="#008A00",command=lambda:generatebuttons(num+1))
+        b = tk.Button(buttonframe,font=("Helevitica","17"),text="Value -1",bg="#E51400")
+        c = tk.Button(buttonframe,font=("Helevitica","17"),text="Config",bg="#647687")
+        numnum+=1
+        a.invoke()
+        componentlist.append(y)
+        componentlist.append(buttonframe)
 
 
 componentlist = []
 title = tk.Label(root,text=filename+":",font=("Helevitica","17",BOLD))
 num = 0
-for x in names:
-    nm = 1
-    x = tk.Label(root,text=x+":",font=("Helevitica","17"))
-    componentlist.append(x)
-    if int(values[num]) == -1:
-        y = tk.Checkbutton(root,text="completed?",font=("Helevitica","17"))
-        componentlist.append(y)
-    else:
-        y = tk.Label(root,text="0/"+values[num],font=("Helevitica","17"))
-        buttonframe = tk.Frame(root)
-        a = tk.Button(buttonframe,font=("Helevitica","17"),text="Value +1",bg="#008A00",command=lambda:numberbig(nm)).pack(side="left",padx=2)
-        b = tk.Button(buttonframe,font=("Helevitica","17"),text="Value -1",bg="#E51400",command=lambda:numberbig(nm)).pack(anchor="w",side = "left",padx=2)
-        c = tk.Button(buttonframe,font=("Helevitica","17"),text="Config",bg="#647687").pack(side="right",padx=2)
-        componentlist.append(y)
-        componentlist.append(buttonframe)
+
+
+for x in range(1):
+    y = tk.Label(root,text="0/"+values[0],font=("Helevitica","17"))
+    buttonframe = tk.Frame(root)
+    a = tk.Button(buttonframe,font=("Helevitica","17"),text="Value +1",bg="#008A00",command=lambda:generatebuttons(0))
+    b = tk.Button(buttonframe,font=("Helevitica","17"),text="Value -1",bg="#E51400")
+    c = tk.Button(buttonframe,font=("Helevitica","17"),text="Config",bg="#647687")
+    a.invoke()
+    componentlist.append(y)
+    componentlist.append(a)
 
     num+=1
     #print(componentlist)
