@@ -1,0 +1,1 @@
+from componenttestresource import *

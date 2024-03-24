@@ -19,6 +19,8 @@ def finish():
       file.writelines(string + '\n' for string in export["names"])
     with open(filename+"values", 'w') as file:
       file.writelines(string + '\n' for string in export["values"])
+    with open("component test gui") as file:
+        exec(file.read())
 def addresourcecommand():
     global error
     global type
