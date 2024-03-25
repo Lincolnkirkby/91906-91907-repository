@@ -3,6 +3,8 @@ from tkinter.font import BOLD
 templist = []
 root = tk.Tk()
 filename= "FILE NAME HERE"
+with open("savenames.txt", 'r') as file:
+    filename = file.readlines()
 root.title(filename)
 with open(filename+"names", 'r') as file:
     templist = file.readlines()

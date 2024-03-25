@@ -4,7 +4,11 @@ type = 0
 from turtle import color
 resourcenum = 1
 filename = "FILE NAME HERE"
+with open("savenames", 'r') as file:
+    filename = file.readlines
 resourcenumstr = str(resourcenum)
+resourcemanagersetup = tk.Tk()
+done = False
 export= {
     "names" : [],
     "values" : []
@@ -15,12 +19,13 @@ c2 = 0
 dir = "up"
 
 def finish():
+    global done
     with open(filename+"names", 'w') as file:
       file.writelines(string + '\n' for string in export["names"])
     with open(filename+"values", 'w') as file:
       file.writelines(string + '\n' for string in export["values"])
-    with open("component test gui") as file:
-        exec(file.read())
+    done = True
+    resourcemanagersetup.destroy()
 def addresourcecommand():
     global error
     global type
@@ -66,7 +71,6 @@ def checkcountcommand():
         type = 0
 if resourcenum <10:
     resourcenumstr = "0"+str(resourcenum)
-resourcemanagersetup = tk.Tk()
 frame1 = tk.Frame(resourcemanagersetup).pack(anchor="w",side="left")
 frame2 = tk.Frame(resourcemanagersetup).pack(side="bottom",anchor="w",pady=5)
 resourcemanagersetup.title(str(filename)+" setup")
