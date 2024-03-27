@@ -4,7 +4,7 @@ templist = []
 root = tk.Tk()
 filename= "FILE NAME HERE"
 with open("savenames.txt", 'r') as file:
-    filename = file.readlines()
+    filename = str(file.readline())
 root.title(filename)
 with open(filename+"names", 'r') as file:
     templist = file.readlines()
@@ -12,7 +12,6 @@ names = []
 for x in templist:
     names.append(x.strip("\n"))
 #print(names)
-filename= "FILE NAME HERE"
 with open(filename+"values", 'r') as file:
     templist = file.readlines()
 values = []
@@ -34,6 +33,8 @@ def generatebuttons(num,positive):
     if numnum<len(names):
         x = tk.Label(root,text=names[num]+":",font=("Helevitica","17"))
         componentlist.append(x)
+        print(values)
+        print(names)
         if values[num] >0:
             y = tk.Label(root,text=str(currentvalue[num])+"/"+str(values[num]),font=("Helevitica","17"))
             buttonframe = tk.Frame(root)

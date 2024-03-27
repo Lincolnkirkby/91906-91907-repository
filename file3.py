@@ -4,8 +4,8 @@ type = 0
 from turtle import color
 resourcenum = 1
 filename = "FILE NAME HERE"
-with open("savenames", 'r') as file:
-    filename = file.readlines
+with open("savenames.txt", 'r') as file:
+    filename = str(file.readline())
 resourcenumstr = str(resourcenum)
 resourcemanagersetup = tk.Tk()
 done = False
