@@ -1,11 +1,14 @@
 import tkinter as tk
 from tkinter.font import BOLD
+import subprocess
 type = 0
 from turtle import color
 resourcenum = 1
 filename = "FILE NAME HERE"
-with open("savenames.txt", 'r') as file:
+call1 = False
+with open("savenames", 'r') as file:
     filename = str(file.readline())
+print(filename)
 resourcenumstr = str(resourcenum)
 resourcemanagersetup = tk.Tk()
 done = False
@@ -25,7 +28,6 @@ def finish():
     with open(filename+"values", 'w') as file:
       file.writelines(string + '\n' for string in export["values"])
     done = True
-    resourcemanagersetup.destroy()
 def addresourcecommand():
     global error
     global type
@@ -82,7 +84,7 @@ resourcecountlabel = tk.Label(frame1,text="Count needed(Int)",font=("Helevitica"
 resourcecountentry = tk.Entry(frame1,width=35)
 finishsetupbutton = tk.Button(frame2,text="Finish setup",command=finish,font=("Helevitica","17"),bg="#008A00").pack(side="right",anchor="s",pady=10)
 addresourcebutton = tk.Button(frame2,text="Add resource",command=addresourcecommand,font=("Helevitica","17"),bg="#0050EF").pack(side="bottom",anchor="w",pady=10)
-while True:
+while done != True:
     if error != "":
         if dir == "up":
             if c2 == 9:
@@ -115,3 +117,6 @@ while True:
     else:
         resourcecountlabel.pack_forget()
         resourcecountentry.pack_forget()
+else:
+    resourcemanagersetup.destroy()
+    subprocess.call(["python", "91906-91907-repository\\file4.py"])

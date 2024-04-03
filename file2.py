@@ -1,13 +1,14 @@
 import tkinter as tk
 import subprocess
 from tkinter.font import BOLD
+
 root = tk.Tk()
 root.title("Resourse Time Managaer New")
 def end():
-        with open("savenames.txt", 'w') as file:
+        with open("savenames", 'w') as file:
                 file.write(nameenrty.get())
-                subprocess.call(["python", "file3.py"])
-                #root.destroy()
+        root.destroy()
+        subprocess.call(["python", "91906-91907-repository\\file3.py"])
 label = tk.Label(font=("Helevitica","17",BOLD),text= "SETTINGS:").pack(anchor="w",pady=10)
 label2 = tk.Label(font=("Helevitica","14",BOLD),text= "File Name:").pack(anchor="w")
 nameenrty = tk.Entry(root,width=35,font=("Helevitica","14",BOLD))
