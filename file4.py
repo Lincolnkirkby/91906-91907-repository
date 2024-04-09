@@ -8,25 +8,25 @@ filename= "FILE NAME HERE"
 with open("savenames", 'r') as file:
     filename = str(file.readline())
 root.title(filename)
-with open(filename+"names", 'r') as file:
-    templist = file.readlines()
-names = []
-for x in templist:
-    names.append(x.strip("\n"))
-#print(names)
-with open(filename+"values", 'r') as file:
-    templist = file.readlines()
-values = []
+with open(filename+"save", 'r') as file:
+        info = file.readline()
+        export = eval(info)
+
+names = export["names"]
+values = export["values"]
 for x in templist:
     values.append(int(x.strip("\n")))
 #print(values)
 componentlist = []
 numnum = 0
-currentvalue = []
-for x in values:
-    currentvalue.append(0)
+if "current" in export:
+    currentvalue = export["current"]
+else:
+    currentvalue = []
+    for x in values:
+        currentvalue.append(0)
+    export["current"] = currentvalue
 ylist = []
-
 
 with open("allsavenames", 'r') as file:
     templist = file.readlines()
@@ -34,6 +34,10 @@ savenames = []
 for x in templist:
     savenames.append(x.strip("\n"))
 
+
+def save():
+    with open(filename+"save", "w") as file:
+        file.write(str(export))
 
 
 def load():
@@ -64,7 +68,7 @@ def generatebuttons(num,positive):
         componentlist.append(x)
         print(values)
         print(names)
-        if values[num] >0:
+        if int(values[num]) >0:
             y = tk.Label(root,text=str(currentvalue[num])+"/"+str(values[num]),font=("Helevitica","17"))
             buttonframe = tk.Frame(root)
             b = tk.Button(buttonframe,font=("Helevitica","17"),text="Value -1",bg="#E51400",fg="#fff",command=lambda:generatebuttons(num,False)).pack(anchor="s",pady=2,side="right",padx=8)
@@ -88,12 +92,14 @@ def generatebuttons(num,positive):
             if positive == False:
                 if currentvalue[num] >0:
                     currentvalue[num] -=1
+        print(currentvalue)
             
 generatebuttons(0,False)
 
 title = tk.Label(root,text=filename+":",font=("Helevitica","17",BOLD))
 
-savebutton = tk.Button(root,font=("Helevitica","20"),text="Save",bg="#008A00",fg="#fff",width=8)
+configbutton = tk.Button(text="config",bg="#647687",fg="#fff",width=8,font=("Helevitica","20"))
+savebutton = tk.Button(root,font=("Helevitica","20"),text="Save",bg="#008A00",fg="#fff",width=8,command=save)
 loadopenbutton = tk.Button(root,font=("Helevitica","20"),text="Load",bg="#0050EF",fg="#fff",width=8,command=loadopen)
 
 
@@ -115,6 +121,7 @@ while True:
 
     for x in componentlist:
         x.pack(anchor="w",pady=2)
+    configbutton.pack(anchor="s",pady=2,side="bottom",padx=8)
     loadopenbutton.pack(anchor="s",pady=2,side="right",padx=8)
     savebutton.pack(anchor="w",pady=2,side="bottom",padx=8)
     root.update()

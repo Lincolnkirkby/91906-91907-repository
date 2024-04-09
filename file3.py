@@ -23,10 +23,8 @@ dir = "up"
 
 def finish():
     global done
-    with open(filename+"names", 'w') as file:
-      file.writelines(string + '\n' for string in export["names"])
-    with open(filename+"values", 'w') as file:
-      file.writelines(string + '\n' for string in export["values"])
+    with open(filename+"save", "w") as file:
+        file.write(str(export))
     done = True
 def addresourcecommand():
     global error
