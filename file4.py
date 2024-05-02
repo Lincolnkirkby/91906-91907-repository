@@ -16,7 +16,6 @@ names = export["names"]
 values = export["values"]
 for x in templist:
     values.append(int(x.strip("\n")))
-#print(values)
 componentlist = []
 numnum = 0
 if "current" in export:
@@ -27,13 +26,19 @@ else:
         currentvalue.append(0)
     export["current"] = currentvalue
 ylist = []
-
+intvarlist = []
+for x in values:
+    intvarlist.append(0)
 with open("allsavenames", 'r') as file:
     templist = file.readlines()
 savenames = []
 for x in templist:
     savenames.append(x.strip("\n"))
 
+def config():
+    loadwindow.destroy()
+    root.destroy()
+    subprocess.call(["python", "91906-91907-repository\\file5.py"])
 
 def save():
     with open(filename+"save", "w") as file:
@@ -57,7 +62,7 @@ def loadopen():
     else:
       loadwindow.iconify()
 
-def generatebuttons(num,positive):
+def generatebuttons(num,cond):
     global numnum
     global componentlist
     global values
@@ -66,13 +71,11 @@ def generatebuttons(num,positive):
     if numnum<len(names):
         x = tk.Label(root,text=names[num]+":",font=("Helevitica","17"))
         componentlist.append(x)
-        print(values)
-        print(names)
         if int(values[num]) >0:
             y = tk.Label(root,text=str(currentvalue[num])+"/"+str(values[num]),font=("Helevitica","17"))
             buttonframe = tk.Frame(root)
-            b = tk.Button(buttonframe,font=("Helevitica","17"),text="Value -1",bg="#E51400",fg="#fff",command=lambda:generatebuttons(num,False)).pack(anchor="s",pady=2,side="right",padx=8)
-            a = tk.Button(buttonframe,font=("Helevitica","17"),text="Value +1",bg="#008A00",fg="#fff",command=lambda:generatebuttons(num,True)).pack(anchor="s",pady=2,side="right",padx=8)
+            b = tk.Button(buttonframe,font=("Helevitica","17"),text="Value -1",bg="#E51400",fg="#fff",command=lambda:generatebuttons(num,"minus")).pack(anchor="s",pady=2,side="right",padx=8)
+            a = tk.Button(buttonframe,font=("Helevitica","17"),text="Value +1",bg="#008A00",fg="#fff",command=lambda:generatebuttons(num,"plus")).pack(anchor="s",pady=2,side="right",padx=8)
             numnum+=1
             ylist.append(y)
             componentlist.append(y)
@@ -80,27 +83,38 @@ def generatebuttons(num,positive):
 
             generatebuttons(numnum,False)
         else:
-            y = tk.Checkbutton(root,text="completed?",font=("Helevitica","17"))
+            a = tk.IntVar()
+            y = tk.Checkbutton(root,text="completed?",font=("Helevitica","17"),variable=a,command=lambda:generatebuttons(num,"swap"))
             componentlist.append(y)
+            intvarlist[num] = a
             numnum+=1
             ylist.append(y)
             generatebuttons(numnum,False)
     else:
         if num <len(names):
-            if positive == True:
+            if cond == "plus":
                 currentvalue[num] +=1
-            if positive == False:
+            if cond == "minus":
                 if currentvalue[num] >0:
                     currentvalue[num] -=1
+            if cond == "swap":
+                currentvalue[num] = intvarlist[num].get()
+        else: 
+            for x in range(len(names)):
+                if intvarlist[x]!=0:
+                    intvarlist[x].set(currentvalue[x])
         print(currentvalue)
             
 generatebuttons(0,False)
 
 title = tk.Label(root,text=filename+":",font=("Helevitica","17",BOLD))
 
-configbutton = tk.Button(text="config",bg="#647687",fg="#fff",width=8,font=("Helevitica","20"))
-savebutton = tk.Button(root,font=("Helevitica","20"),text="Save",bg="#008A00",fg="#fff",width=8,command=save)
-loadopenbutton = tk.Button(root,font=("Helevitica","20"),text="Load",bg="#0050EF",fg="#fff",width=8,command=loadopen)
+buttonframe = tk.Frame(root)
+buttonframe2 = tk.Frame(root)
+configbutton = tk.Button(buttonframe,text="Config",bg="#647687",fg="#fff",width=8,font=("Helevitica","20"),command=config).pack()
+removebutton = tk.Button(buttonframe,text="Remove",bg="#E51400",fg="#fff",width=8,font=("Helevitica","20"),command=config).pack()
+savebutton = tk.Button(buttonframe2,font=("Helevitica","20"),text="Save",bg="#008A00",fg="#fff",width=8,command=save).pack()
+loadopenbutton = tk.Button(buttonframe2,font=("Helevitica","20"),text="Load",bg="#0050EF",fg="#fff",width=8,command=loadopen).pack()
 
 
 loadwindow = tk.Tk()
@@ -121,7 +135,7 @@ while True:
 
     for x in componentlist:
         x.pack(anchor="w",pady=2)
-    configbutton.pack(anchor="s",pady=2,side="bottom",padx=8)
-    loadopenbutton.pack(anchor="s",pady=2,side="right",padx=8)
-    savebutton.pack(anchor="w",pady=2,side="bottom",padx=8)
+    buttonframe.pack(anchor="se",side="right")
+    buttonframe2.pack(anchor="sw",side="left")
+   
     root.update()

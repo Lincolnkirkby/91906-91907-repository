@@ -43,8 +43,6 @@ def addresourcecommand():
         if error == "":
            if int(value2) <= 0:
             error = "ERROR, INT must be greater than 0"
-           if int(value2) == 1:
-            error = "Use checklist mode for values of 1"
     if error == "":
         resourcenameentry.delete(0, tk.END)
         resourcecountentry["bg"] = "#ffffff"
