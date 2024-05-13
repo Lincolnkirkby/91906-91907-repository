@@ -1,11 +1,17 @@
 import tkinter as tk
 from tkinter.font import BOLD
 import subprocess
+import os
 type = 0
 from turtle import color
 resourcenum = 1
 filename = "FILE NAME HERE"
 call1 = False
+
+if not os.path.exists("savenames"):
+   with open("savenames", 'w') as file:
+      pass
+
 with open("savenames", 'r') as file:
     filename = str(file.readline())
 print(filename)
@@ -22,6 +28,8 @@ c2 = 0
 dir = "up"
 
 def finish():
+    if resourcenameentry.get() != "" and  resourcecountentry != "":
+        addresourcecommand()
     global done
     with open(filename+"save", "w") as file:
         file.write(str(export))
@@ -115,4 +123,4 @@ while done != True:
         resourcecountentry.pack_forget()
 else:
     resourcemanagersetup.destroy()
-    subprocess.call(["python", "91906-91907-repository\\file4.py"])
+    subprocess.call(["python", "runfile.py"])

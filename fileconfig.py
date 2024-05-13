@@ -44,7 +44,7 @@ def unsave():
     with open("savenames", 'w') as file:
         file.write(filename)
     root.destroy()
-    subprocess.call(["python", "91906-91907-repository\\file4.py"])
+    subprocess.call(["python", "runfile.py"])
 
 def save():
     global export
@@ -53,7 +53,9 @@ def save():
     for x in listofnames:
         export["names"].append(componentlist[x-1].get())
     for x in listofvals:
-        export["values"].append(componentlist[x-1].get())
+        if componentlist[x-1] != -1:
+            export["values"].append(componentlist[x-1].get())
+        else: export["values"].append(-1)
     print(names)
     print(export)
     with open(filename+"save", "w") as file:
@@ -61,7 +63,7 @@ def save():
     with open("savenames", 'w') as file:
         file.write(filename)
     root.destroy()
-    subprocess.call(["python", "91906-91907-repository\\file4.py"])
+    subprocess.call(["python", "runfile.py"])
 
 truenum = 0
 def generatebuttons(num,cond):
@@ -93,6 +95,9 @@ def generatebuttons(num,cond):
 
             generatebuttons(numnum,False)
         else:
+            truenum +=1
+            componentlist.append(-1)
+            listofvals.append(truenum)
             numnum+=1
             generatebuttons(numnum,False)
     else:
@@ -111,7 +116,8 @@ while True:
     title.pack(anchor="w",pady=2)
     allvalues = []
     for x in componentlist:
-        x.pack(anchor="w",pady=2)
+        if x!=-1:
+            x.pack(anchor="w",pady=2)
     savebutton.pack(anchor="w",pady=2,side="bottom",padx=8)
     dontsavebutton.pack(anchor="w",pady=2,side="bottom",padx=8)
     root.update()

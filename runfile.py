@@ -35,10 +35,16 @@ savenames = []
 for x in templist:
     savenames.append(x.strip("\n"))
 
+def goback():
+    loadwindow.destroy()
+    root.destroy()
+    subprocess.call(["python", "start.py"])
+  
+
 def config():
     loadwindow.destroy()
     root.destroy()
-    subprocess.call(["python", "91906-91907-repository\\file5.py"])
+    subprocess.call(["python", "fileconfig.py"])
 
 def save():
     with open(filename+"save", "w") as file:
@@ -53,7 +59,7 @@ def load():
         file.write(filename)
     loadwindow.destroy()
     root.destroy()
-    subprocess.call(["python", "91906-91907-repository\\file4.py"])
+    subprocess.call(["python", "runfile.py"])
 
 
 def loadopen():
@@ -71,6 +77,7 @@ def generatebuttons(num,cond):
     if numnum<len(names):
         x = tk.Label(root,text=names[num]+":",font=("Helevitica","17"))
         componentlist.append(x)
+        print(values)
         if int(values[num]) >0:
             y = tk.Label(root,text=str(currentvalue[num])+"/"+str(values[num]),font=("Helevitica","17"))
             buttonframe = tk.Frame(root)
@@ -112,7 +119,7 @@ title = tk.Label(root,text=filename+":",font=("Helevitica","17",BOLD))
 buttonframe = tk.Frame(root)
 buttonframe2 = tk.Frame(root)
 configbutton = tk.Button(buttonframe,text="Config",bg="#647687",fg="#fff",width=8,font=("Helevitica","20"),command=config).pack()
-removebutton = tk.Button(buttonframe,text="Remove",bg="#E51400",fg="#fff",width=8,font=("Helevitica","20"),command=config).pack()
+removebutton = tk.Button(buttonframe,text="return",bg="#E51400",fg="#fff",width=8,font=("Helevitica","20"),command=goback).pack()
 savebutton = tk.Button(buttonframe2,font=("Helevitica","20"),text="Save",bg="#008A00",fg="#fff",width=8,command=save).pack()
 loadopenbutton = tk.Button(buttonframe2,font=("Helevitica","20"),text="Load",bg="#0050EF",fg="#fff",width=8,command=loadopen).pack()
 
